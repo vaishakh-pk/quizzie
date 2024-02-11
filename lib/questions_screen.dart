@@ -11,23 +11,46 @@ class QuestionsScreen extends StatefulWidget {
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
 
-  final currentQuestion = questions[0];
+  //Accessing objects from questions.
+  var currentQuestionIndex = 0;
+  answerQuestion()
+  {
+    setState(() 
+    {
+      currentQuestionIndex+=1;
+    });
+    
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+    final currentQuestion = questions[currentQuestionIndex];
     return Scaffold(
         body: SizedBox(
       width: double.infinity,
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-         Text(
-          currentQuestion.text,
-          style: const TextStyle(color: Colors.white),
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        AnswerButton(answerText:currentQuestion.answers[0],onTap: (){})
-      ]),
+      child: Container(
+        padding: EdgeInsets.all(40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, 
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+           Text(
+            currentQuestion.text,
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          // Spreading the list of answer buttons created using map to
+          //individual widgets using "..." operator (Spread operator)
+          ...currentQuestion.getShuffledAnswers().map((answer){
+            return AnswerButton(answerText:answer,onTap: answerQuestion);
+          }),
+          
+        ]),
+      ),
     ));
   }
 }

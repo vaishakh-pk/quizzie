@@ -1,3 +1,5 @@
+// Dummy questions data in the form of questions model
+
 import 'package:quizzie/models/quiz_questions.dart';
 
 const questions = [
