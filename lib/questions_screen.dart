@@ -4,7 +4,9 @@ import 'package:quizzie/styles/answer_button.dart';
 import 'package:quizzie/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen(this.onSelectAnswer,{super.key});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -14,8 +16,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   //Accessing objects from questions.
   var currentQuestionIndex = 0;
-  answerQuestion()
+  answerQuestion(String selectedAnswer)
   {
+    widget.onSelectAnswer(selectedAnswer);
     setState(() 
     {
       currentQuestionIndex+=1;
@@ -48,7 +51,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           // Spreading the list of answer buttons created using map to
           //individual widgets using "..." operator (Spread operator)
           ...currentQuestion.getShuffledAnswers().map((answer){
-            return AnswerButton(answerText:answer,onTap: answerQuestion);
+            return AnswerButton(answerText:answer,onTap: (){answerQuestion(answer);});
           }),
           
         ]),
